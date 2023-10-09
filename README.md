@@ -1,10 +1,10 @@
 # MentorNatio
 
-## https://github.com/s-leirbag/MentorNatio
+## https://devpost.com/software/mentornatio
 
 Breaking mental health barriers for international students.
 
-Developed at SASEhack 2023! https://devpost.com/software/mentornatio
+Developed at SASEhack 2023!
 
 Uses ChatGPT API, FastAPI, React, MUI.
 
@@ -12,6 +12,10 @@ Uses ChatGPT API, FastAPI, React, MUI.
 
 ![Mentee Sign Up!](readme_media/1.jpg)
 ![Matched Mentors!](readme_media/2.jpg)
+
+## Pitch
+
+[![MentorNatio Pitch - SASEHack 2023](https://img.youtube.com/vi/ArmQ4ij00nE/0.jpg)](https://www.youtube.com/watch?v=ArmQ4ij00nE "MentorNatio Pitch - SASEHack 2023")
 
 ## Inspiration
 In college, we noticed a lot of international students felt that attending college in another country is a very challenging experience. They have their own unique struggles adapting to our culture and language. They often face great pressure to perform well and face issues like homesickness and loneliness.  
