@@ -1,18 +1,18 @@
 import React from 'react';
 import './App.css';
 
-import CssBaseline from '@mui/material/CssBaseline';
+// import CssBaseline from '@mui/material/CssBaseline';
 import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
+// import Box from '@mui/material/Box';
+// import Button from '@mui/material/Button';
+// import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+// import Grid from '@mui/material/Grid';
+// import IconButton from '@mui/material/IconButton';
+// import Link from '@mui/material/Link';
+// import Paper from '@mui/material/Paper';
+// import Stack from '@mui/material/Stack';
+// import Typography from '@mui/material/Typography';
 
 import MenteeSignUp from './Components/MenteeSignUp';
 import Matches from './Components/Matches';
@@ -71,22 +71,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-
-{/* <div className="App">
-  <CssBaseline />
-  <Grid container columnSpacing={2} sx={{ p: 2, height: '100vh' }}>
-    <Grid item xs={12} sx={{ height: 'calc(2.125rem + 30px)', mb: 2 }}>
-      <Paper sx={{ pt: 1, pl: 2, height: '100%', display: 'flex', alignItems: 'end' }} elevation={4}>
-        <Typography variant='h3' component='h4' sx={{ mr: 4 }} >Connect International Students</Typography>
-        <Typography variant='body1' component='p' sx={{ mb: 1, ml: 'auto', mr: 2 }}>
-          GitHub repo: <Link href='https://github.com/s-leirbag/gif-editor/' target="_blank" rel="noopener">click</Link>
-        </Typography>
-      </Paper>
-    </Grid>
-    <Grid item xs={12} sx={{ height: '70%' }}>
-      <Paper sx={{ p: 2, height: '100%' }} elevation={4}>
-      </Paper>
-    </Grid>
-  </Grid>
-</div> */}
