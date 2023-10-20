@@ -2,7 +2,7 @@ version: "3.8"
 services:
   api:
     build: ./api
-    container_name: api
+    container_name: mentornatio-api
     command: sh -c "uvicorn main:app --port=8000 --host=0.0.0.0"
     env_file:
       - ./api/.env
@@ -10,6 +10,6 @@ services:
       - '8000:8000'
   client:
     build: ./client
-    container_name: client
+    container_name: mentornatio-client
     ports:
       - '3000:3000'
