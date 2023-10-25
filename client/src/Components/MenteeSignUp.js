@@ -1,11 +1,12 @@
 import * as React from 'react';
 // import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
+import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,36 +16,79 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { inputAttrs, inputName, exampleMentees } from '../Constants.js';
 
+import { cloneDeep } from 'lodash';
+
 const defaultTheme = createTheme();
+
+function SettingButtons(props) {
+  let buttons = [];
+  for (const [name, onClick] of Object.entries(props.map)) {
+      buttons.push(
+          <Button onClick={() => onClick()} key={name}>
+              {name}
+          </Button>
+      );
+  }
+
+  return (
+      <Box sx={{ p: 1 }}>
+          <Typography variant='body1' component='p'>
+              {props.name}
+          </Typography>
+          <ButtonGroup variant="outlined" aria-label="outlined button group">
+              {buttons}
+          </ButtonGroup>
+      </Box>
+  );
+}
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'Developed at SASEhack 2023 by Ryan Zhang, Samin Nihad, and Gabriel Shiu. '}
+    </Typography>
+  );
+}
 
 export default class MenteeSignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      exampleNum: Math.floor(Math.random() * exampleMentees.length),
       randomNumber: Math.floor(Math.random() * 2) + 1,
       randomNumber2: Math.floor(Math.random() * 2) + 1,
-      useExample: false,
+      values: exampleMentees[0],
     };
   }
 
   componentDidMount() {
-      window.addEventListener("keyup", this.handleKeyUp);
+    window.addEventListener("keyup", this.handleKeyUp);
+
+    // Set form values empty as default
+    let newVals = cloneDeep(this.state.values);
+    for (const key of inputAttrs)
+      newVals[key] = '';
+    this.setState({values: newVals});
   }
 
   componentWillUnmount() {
-      window.removeEventListener("keyup", this.handleKeyUp);
+    window.removeEventListener("keyup", this.handleKeyUp);
   }
 
   handleKeyUp = (event) => {
-    if (event.key === "1") {
-      this.setState({ example: 1, useExample: true });
-    } else if (event.key === "2") {
-      this.setState({ example: 2, useExample: true });
-    } else if (event.key === "3") {
-      this.setState({ example: 3, useExample: true });
-    }
+    // const number = parseFloat(event.key);
+    // if (!isNaN(number) && number > 0 && number <= exampleMentees.length)
+    //   this.setExampleMentee(number - 1);
+  };
+
+  setExampleMentee = (index) => {
+    this.setState({ values: exampleMentees[index] });
   }
+
+  handleFormChange = (event) => {
+    let newVals = cloneDeep(this.state.values);
+    newVals[event.target.name] = event.target.value;
+    this.setState({values: newVals});
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -57,46 +101,54 @@ export default class MenteeSignUp extends React.Component {
     this.props.onSubmit(formData);
   };
 
-  render() {
-
+  renderFields() {
     let fields = [];
-    if (this.state.useExample) {
-      inputAttrs.forEach((attr) => {
-        fields.push(
-          <Grid item xs={12} key={attr}>
-            <TextField
-              required
-              fullWidth
-              id={attr}
-              label={inputName[attr]}
-              name={attr}
-              autoComplete={attr}
-              value={exampleMentees[this.state.exampleNum][attr]}
-            />
-          </Grid>
-        )
-      })
-    } else {
-      inputAttrs.forEach((attr) => {
-        fields.push(
-          <Grid item xs={12} key={attr}>
-            <TextField
-              required
-              fullWidth
-              id={attr}
-              label={inputName[attr]}
-              name={attr}
-              autoComplete={attr}
-              placeholder={exampleMentees[this.state.exampleNum][attr]}
-            />
-          </Grid>
-        )
-      })
-    }
+    inputAttrs.forEach((attr) => {
+      fields.push(
+        <Grid item xs={12} key={attr}>
+          <TextField
+            required
+            fullWidth
+            id={attr}
+            label={inputName[attr]}
+            name={attr}
+            autoComplete={attr}
+            value={this.state.values[attr]}
+            placeholder={exampleMentees[0][attr]}
+            onChange={this.handleFormChange}
+          />
+        </Grid>
+      )
+    });
+    return fields;
+  }
+
+  renderExampleButtons() {
+    let map = {};
+    exampleMentees.forEach((mentee) => {
+      map[mentee['FullName']] = () => {
+        this.setExampleMentee(mentee['Index'] - 1);
+      }
+    });
+
+    return (
+      <div>
+        <Typography variant='h6' component='p' sx={{ mt: 2 }}>
+          Example Mentees
+        </Typography>
+        <SettingButtons map={map} key={'examples'} />
+      </div>
+    );
+  }
+
+  render() {
+    const fields = this.renderFields();
   
     let img1, img2;
     img1 = `signup/man${this.state.randomNumber}.png`;
     img2 = `signup/woman${this.state.randomNumber2}.png`;
+
+    const exampleButtons = this.renderExampleButtons();
   
     return (
       <ThemeProvider theme={defaultTheme}>
@@ -128,15 +180,17 @@ export default class MenteeSignUp extends React.Component {
             >
               MentorNatio
             </Typography>
-            {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar> */}
             <Typography component="h1" variant="h5">
               Mentee sign up
             </Typography>
-            {/* <Typography component="p" variant="subtitle">
-              Find a familiar friend
-            </Typography> */}
+            <Typography component="p" variant="subtitle">
+              Are you an international student struggling to find mental health resources?
+              Fill out this form to find a suitable mentor for you.
+            </Typography>
+            <Link color="primary" href="https://github.com/s-leirbag/MentorNatio/">
+              Github repo
+            </Link>
+            {exampleButtons}
             <Box component="form" noValidate onSubmit={this.handleSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 {fields}
@@ -150,8 +204,8 @@ export default class MenteeSignUp extends React.Component {
                 Find a Friend!
               </Button>
             </Box>
+            <Copyright />
           </Box>
-          {/* <Copyright sx={{ mt: 5 }} /> */}
         </Container>
       </ThemeProvider>
     );
